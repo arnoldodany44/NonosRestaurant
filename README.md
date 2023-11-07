@@ -78,6 +78,10 @@ Parameter Reshaping: The function starts by taking an argument called params, wh
 
 Construction of Entangling Layers: It uses a template called StronglyEntanglingLayers from the quantum computing library. This template applies a series of quantum gates that strongly entangle the qubits, thereby creating quantum entanglement between them. Entanglement is a key resource in quantum computing that allows qubits to be correlated in a way that is not possible in classical systems.
 
+StronglyEntanglingLayers: StronglyEntanglingLayers is one of the templates provided by PennyLane. This template creates a sequence of layers where each layer consists of single-qubit rotation gates and two-qubit entangling gates. The single-qubit rotations are typically applied to each qubit and are parametrized by the input parameters. The two-qubit entangling gates are CNOTs or other entangling gates that link the qubits together, creating quantum entanglement between them.
+
+![App Screenshot](https://arnoldodany.com/QCImages/StronglyCircuit.png)
+
 Expectation Value Evaluation: Finally, the function calculates the expected value of a given Hamiltonian operator (hamiltonian). In quantum mechanics, the expectation value of a Hamiltonian with respect to a quantum state gives the average energy of that state. In this case, the Hamiltonian is applied to the first two qubits of the circuit. The expected value is a critical measure in VQCs, as it is often sought to minimize this value through a variational optimization process, by adjusting the circuit parameters to find the state of lowest energy, which is the optimal solution to the problem at hand.
 
 ![App Screenshot](https://arnoldodany.com/QCImages/QC_circuito.png)
@@ -112,7 +116,7 @@ Optimization Call: The optimize_circuit function is called with the defined Hami
 
 Print Optimized Value: After the optimization routine completes, the optimized expectation value (presumably the lowest found by the optimizer) is printed out. This value represents the energy of the system in the state dictated by the optimized parameters of the variational quantum circuit.
 
-![App Screenshot](https://arnoldodany.com/QCImages/QC_main.png)
+![App Screenshot](https://arnoldodany.com/QCImages/QC_maini.png)
 ## Test cases
 
 For this project, two Hamiltonians provided by PennyLane were used to verify the code's functionality.
@@ -143,7 +147,8 @@ For this project, two Hamiltonians provided by PennyLane were used to verify the
 #### Quantum Codebreakers
 
 - [@Arnoldo Valdez](https://www.github.com/arnoldodany44)
-- [@Alejandro Monroy](https://www.github.com/)
+- [@Alejandro Monroy](https://www.github.com/AzpMon)
 - [@Francisco Costa](https://www.github.com/podxboq)
 - [@Sofía Salazar](https://www.github.com/nsalazard)
 - [@Julio Moreno](https://www.github.com/)
+
