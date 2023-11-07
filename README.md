@@ -1,70 +1,149 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Quantum Circuit Optimizer with PennyLane
 
-## Available Scripts
+This project implements a variational quantum circuit optimizer using the PennyLane
+quantum computing library. The goal is to minimize the expected value of a fixed
+measurement by adjusting the parameters of a variational quantum circuit, which represents
+a QNode in PennyLane. This optimization process is crucial for tasks such as quantum state
+preparation and solving energy problems in physical systems modeled by specific
+Hamiltonians.
 
-In the project directory, you can run:
+The project demonstrates how to convert a quantum circuit into an executable QNode and how to apply optimizers to find the parameters that result in the minimum expected value of an unknown observable. Concrete examples are provided, and the effectiveness of the optimizer is shown using different Hamiltonians as test cases.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Install Pennylane
 
-### `npm run build`
+To install PennyLane and run the quantum circuit optimizer, follow these steps:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Ensure you have Python installed on your system.
+- Install PennyLane using pip with the following command:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+  pip install pennylane
+```
+    
+## Dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**PennyLane:** A Python library that simplifies the simulation and optimization of quantum circuits. It is the only dependency required to run this project.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Usage
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To use the code, you need to download the Pennylane_Challenge.ipynb file, meet the dependencies (Python and Pennylane), and start running the project step by step from top to bottom.
 
-## Learn More
+To test different Hamiltonians, simply modify the line of code:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+  hamiltonian_example = np.array(
+  [0.32158897156285354,-0.20689268438270836,0.12366748295758379,-0.11737425017261123,
+  -0.20689268438270836,0.7747346055276305,-0.05159966365446514,0.08215539696259792,
+  0.12366748295758379,-0.05159966365446514,0.5769050487087416,0.3853362904758938,
+  -0.11737425017261123,0.08215539696259792,0.3853362904758938,0.3986256655167206])
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Pennylane examples:
 
-### Code Splitting
+```bash
+    [0.863327072347624,0.0167108057202516,0.07991447085492759,0.0854049026262154,
+    0.0167108057202516,0.8237963773906136,-0.07695947154193797,0.03131548733285282,
+    0.07991447085492759,-0.07695947154193795,0.8355417021014687,-0.11345916130631205,
+    0.08540490262621539,0.03131548733285283,-0.11345916130631205,0.758156886827099]
+```
+- expected_output: `0.61745341`
+```bash
+    [0.32158897156285354,-0.20689268438270836,0.12366748295758379,-0.11737425017261123,
+    -0.20689268438270836,0.7747346055276305,-0.05159966365446514,0.08215539696259792,
+    0.12366748295758379,-0.05159966365446514,0.5769050487087416,0.3853362904758938,
+    -0.11737425017261123,0.08215539696259792,0.3853362904758938,0.3986256655167206]
+```
+- expected_output: `0.00246488`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Screenshots and Code explanation
 
-### Making a Progressive Web App
+For the development of this code, we started with the template provided by PennyLane. The only necessary library is PennyLane, and initially, we begin with the definition of what will be our number of wires or qubits, our number of layers in the circuit, and our total number of parameters.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+![App Screenshot](https://arnoldodany.com/QCImages/QC_librer%C3%ADas.png)
 
-### Advanced Configuration
+The function "variational_circuit" aims to construct a variational quantum circuit (VQC), which is a type of parameterized quantum circuit frequently used in quantum algorithms, especially in the fields of quantum optimization and quantum machine learning.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Parameter Reshaping: The function starts by taking an argument called params, which is an array of numerical values. These values are the variational parameters that will control certain quantum operations (gates) in the circuit. The params array is reshaped to match the number of layers (LAYERS) and the number of qubits (WIRES) in the circuit. Each qubit in each layer will have three associated parameters.
 
-### Deployment
+Construction of Entangling Layers: It uses a template called StronglyEntanglingLayers from the quantum computing library. This template applies a series of quantum gates that strongly entangle the qubits, thereby creating quantum entanglement between them. Entanglement is a key resource in quantum computing that allows qubits to be correlated in a way that is not possible in classical systems.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Expectation Value Evaluation: Finally, the function calculates the expected value of a given Hamiltonian operator (hamiltonian). In quantum mechanics, the expectation value of a Hamiltonian with respect to a quantum state gives the average energy of that state. In this case, the Hamiltonian is applied to the first two qubits of the circuit. The expected value is a critical measure in VQCs, as it is often sought to minimize this value through a variational optimization process, by adjusting the circuit parameters to find the state of lowest energy, which is the optimal solution to the problem at hand.
 
-### `npm run build` fails to minify
+![App Screenshot](https://arnoldodany.com/QCImages/QC_circuito.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This code defines a function named optimize_circuit that aims to optimize a variational quantum circuit given a Hamiltonian. Here's a breakdown of the function and the rationale behind each part:
+
+Hamiltonian Conversion: The function starts by converting the hamiltonian input into a NumPy array and ensuring that it does not require a gradient. This is necessary because the optimization process involves computing gradients, and the Hamiltonian's own gradient is not relevant to this process.
+
+Hamiltonian Reshaping: The Hamiltonian is reshaped into a square matrix of size 4x4, which is suitable for a system with two qubits (since $2^2$ = 4). This is because the Hamiltonian must be a matrix where the dimensions are equal to the number of possible states of the system.
+
+Quantum Device Definition: A quantum device is instantiated using PennyLane's default.qubit simulator, setting the number of wires (qubits) it will use. This device will simulate the quantum circuit.
+
+Quantum Node Creation: A quantum node (QNode) is created with the variational_circuit function previously discussed, and the quantum device dev. A QNode wraps a quantum function (the circuit) for execution on a specific device.
+
+Parameter Initialization: The circuit parameters are initialized to random values. This is a common practice in optimization, as starting from different random points can help in avoiding local minima and finding a better global solution.
+
+Cost Function: The cost function is defined to be the expected value of the Hamiltonian, which is what we seek to minimize. It uses the circuit to compute this expected value given the current parameters.
+
+Optimizer Definition: A gradient descent optimizer is initialized with a specified step size. Gradient descent is an optimization algorithm that iteratively adjusts parameters to minimize the cost function.
+
+Optimization Loop: The optimization process is carried out for a predefined number of steps (num_steps). In each step, the optimizer adjusts the parameters to minimize the cost function.
+
+Return Optimized Cost: After the optimization loop, the function returns the optimized cost, which is the lowest expected value of the Hamiltonian found by the optimization process.
+
+![App Screenshot](https://arnoldodany.com/QCImages/QC_funcion.png)
+
+min_value Initialization: The variable min_value is initialized to float('inf'), which is a way of setting it to "infinity" in Python. This value serves as a comparison baseline for finding the minimum expectation value as the optimization proceeds.
+
+Hamiltonian Definition: hamiltonian_example is defined as a NumPy array representing a Hamiltonian, which is a matrix associated with the total energy of the quantum system. In quantum computing, we often seek to find the ground state (the state of lowest energy) of such a system.
+
+Optimization Call: The optimize_circuit function is called with the defined Hamiltonian. Although the function itself is not shown in the snippet, we can infer that it involves setting up a variational quantum circuit, initializing parameters, defining a cost function (usually the expectation value of the Hamiltonian), and using an optimizer to adjust the parameters to minimize the cost.
+
+Print Optimized Value: After the optimization routine completes, the optimized expectation value (presumably the lowest found by the optimizer) is printed out. This value represents the energy of the system in the state dictated by the optimized parameters of the variational quantum circuit.
+
+![App Screenshot](https://arnoldodany.com/QCImages/QC_main.png)
+## Test cases
+
+For this project, two Hamiltonians provided by PennyLane were used to verify the code's functionality.
+
+- input: 
+```bash
+    [0.863327072347624,0.0167108057202516,0.07991447085492759,0.0854049026262154,
+    0.0167108057202516,0.8237963773906136,-0.07695947154193797,0.03131548733285282,
+    0.07991447085492759,-0.07695947154193795,0.8355417021014687,-0.11345916130631205,
+    0.08540490262621539,0.03131548733285283,-0.11345916130631205,0.758156886827099]
+```
+- expected_output: `0.61745341`
+- proyect_output: `0.6174534088312781`
+
+- input: 
+```bash
+    [0.32158897156285354,-0.20689268438270836,0.12366748295758379,-0.11737425017261123,
+    -0.20689268438270836,0.7747346055276305,-0.05159966365446514,0.08215539696259792,
+    0.12366748295758379,-0.05159966365446514,0.5769050487087416,0.3853362904758938,
+    -0.11737425017261123,0.08215539696259792,0.3853362904758938,0.3986256655167206]
+```
+- expected_output: `0.00246488`
+- proyect_output: `0.0024648812008860755`
+
+
+## Authors
+
+#### Quantum Codebreakers
+
+- [@Arnoldo Valdez](https://www.github.com/arnoldodany44)
+- [@Alejandro Monroy](https://www.github.com/)
+- [@Francisco Costa](https://www.github.com/podxboq)
+- [@Sofía Salazar](https://www.github.com/nsalazard)
+- [@Julio Moreno](https://www.github.com/)
