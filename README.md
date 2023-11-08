@@ -104,7 +104,7 @@ $\ket{\Psi_0} = \hat{W}_θ \ket{0}^{\otimes n}$
 </p>
 
 
-then ,due the expected value of the hamiltonian in the groun states is less or equal to the expected value for an  arbitrary state, for  the ground state we must  find  the parameters of the operator     $\hat{W}$(θ)    that minimize the expected value for the Hamiltonian  $\hat{H}$  in    $\hat{W}$(θ) $\ket{0}^{\otimes n}$  , i,e   $\braket{H}$ $_{\Psi(θ)}$
+then ,due the expected value of the hamiltonian in the ground states is less or equal to the expected value for an  arbitrary state, for  the ground state we must  find  the parameters of the operator     $\hat{W}$(θ)    that minimize the expected value for the Hamiltonian  $\hat{H}$  in    $\hat{W}$(θ) $\ket{0}^{\otimes n}$  , i,e   $\braket{H}$ $_{\Psi(θ)}$
 
 
 We can encode our minimization problem of a cost function, the expected value, with a Variational Quantum Algorithm and  use tools like PennyLane! 
@@ -147,6 +147,10 @@ Optimizer Definition: A gradient descent optimizer is initialized with a specifi
 
 Optimization Loop: The optimization process is carried out for a predefined number of steps (num_steps). In each step, the optimizer adjusts the parameters to minimize the cost function.
 
+Stepsize and number of steps justification: To find the optimal parameters that would yield the best result, an alternate algorithm was used. Its function was to execute the resulting algorithm 1000 times but with random values for the stepsize from 0.1 to 0.5 and random values for the number of steps from 100 to 500. Running this code multiple times resulted in finding that the most optimal combination of these two parameters tended towards a stepsize of 0.4 and a number of steps of 200.
+
+![App Screenshot](https://arnoldodany.com/QCImages/QC_alterno.png)
+
 Return Optimized Cost: After the optimization loop, the function returns the optimized cost, which is the lowest expected value of the Hamiltonian found by the optimization process.
 
 ![App Screenshot](https://arnoldodany.com/QCImages/QC_funcion.png)
@@ -160,6 +164,7 @@ Optimization Call: The optimize_circuit function is called with the defined Hami
 Print Optimized Value: After the optimization routine completes, the optimized expectation value (presumably the lowest found by the optimizer) is printed out. This value represents the energy of the system in the state dictated by the optimized parameters of the variational quantum circuit.
 
 ![App Screenshot](https://arnoldodany.com/QCImages/QC_maini.png)
+
 ## Test cases
 
 For this project, two Hamiltonians provided by PennyLane were used to verify the code's functionality.
